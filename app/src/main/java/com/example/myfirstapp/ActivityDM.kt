@@ -1,0 +1,85 @@
+package com.example.myfirstapp
+
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class ActivityDM : AppCompatActivity() {
+
+    var x1 : Float = 0.0f;
+    var x2 : Float = 0.0f;
+    var y1 : Float = 0.0f;
+    var y2 : Float = 0.0f;
+    var toast : Toast? = null;
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_dm)
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#673AB7")))
+        supportActionBar?.title = "Dungeon Master"
+
+    }
+
+
+
+    fun generaNegozi(view: View) {
+        toast?.cancel()
+        val intent = Intent(this, GeneraNegoziActivity::class.java)
+        startActivity(intent)
+    }
+
+
+    fun generaIncontri(view: View) {
+        val intent = Intent(this, GeneraNegozioActivity2::class.java)
+        startActivity(intent)
+//        toast = Toast.makeText(this, "Funzione non ancora implementata", Toast.LENGTH_LONG)
+//        toast!!.show()
+    }
+
+    override fun onBackPressed() {
+        toast?.cancel();
+        super.onBackPressed()
+    }
+
+    override fun onTouchEvent(motionEvent : MotionEvent): Boolean {
+
+        when (motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                x1 = motionEvent.x
+                y1 = motionEvent.y
+            }
+            MotionEvent.ACTION_UP -> {
+                x2 = motionEvent.x
+                y2 = motionEvent.y
+
+                //SWIPE LEFT
+                if (x1 < x2) {
+                    toast?.cancel()
+                    intent = Intent(this, MonstersActivity::class.java)
+                    intent.putExtra("HOME_PAGE_LEVEL","dm")
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.enter2, R.anim.exit2);
+
+                    //SWIPE RIGHT
+                } else if (x1 > x2) {
+                    toast?.cancel()
+                    var intent = Intent(this, ItemsActivity::class.java)
+                    intent.putExtra("HOME_PAGE_LEVEL","dm")
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.enter, R.anim.exit);
+                }
+
+            }
+        }
+
+        return false;
+    }
+
+
+}
