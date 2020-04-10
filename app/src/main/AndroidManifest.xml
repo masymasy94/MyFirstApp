@@ -9,11 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GeneraNegozioActivity2"></activity>
+        <activity android:name=".GeneraNegoziActivity"></activity>
         <activity android:name=".EnchantementsActivity" />
         <activity android:name=".ItemsActivity" />
         <activity android:name=".MonstersActivity" />
-        <activity android:name=".GeneraNegoziActivity" />
         <activity android:name=".ActivityDM" />
         <activity android:name=".ActivityHomePage">
             <intent-filter>

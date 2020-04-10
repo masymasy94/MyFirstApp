@@ -36,10 +36,11 @@ class ActivityDM : AppCompatActivity() {
 
 
     fun generaIncontri(view: View) {
-        val intent = Intent(this, GeneraNegozioActivity2::class.java)
-        startActivity(intent)
-//        toast = Toast.makeText(this, "Funzione non ancora implementata", Toast.LENGTH_LONG)
-//        toast!!.show()
+//        val intent = Intent(this, GeneraIncontriActivity::class.java)
+//        startActivity(intent)
+        toast?.cancel()
+        toast = Toast.makeText(this, "Funzione non ancora implementata", Toast.LENGTH_LONG)
+        toast!!.show()
     }
 
     override fun onBackPressed() {

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/superLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <Button
+        android:id="@+id/bottoneAggiungi"
+        android:layout_width="61dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="300dp"
+        android:background="@drawable/rotella_viola"
+        android:elevation="2dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/contenitoreTesto"
+        android:id="@+id/barraInAlto"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/contenitoreTesto"
+        app:layout_constraintTop_toBottomOf="@id/barraInAlto"
+        app:layout_constraintBottom_toTopOf="@id/contenitoreBottoni"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewTest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorPrimaryDark"
+            android:scrollbars="vertical"
+            android:text="Genera un negozio!"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@id/contenitoreBottoni"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/contenitoreBottoni"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/contenitoreTesto"
+        app:layout_constraintBottom_toTopOf="@id/barraInBasso" >
+
+        <HorizontalScrollView
+            android:id="@+id/scrollview2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toTopOf="parent"
+            android:scrollbars="horizontal"
+            android:fadeScrollbars="false"
+            android:scrollbarThumbVertical="@color/colorPurple"
+           >
+
+            <LinearLayout
+                android:id="@+id/linearLayoutButtons"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btn1"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/purple_button"
+                    android:onClick="generaNegozio"
+                    android:text="genera negozio Principiante" />
+
+                <Button
+                    android:id="@+id/btn2"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/purple_button"
+                    android:onClick="generaNegozio"
+                    android:text="genera negozio avanzato" />
+
+                <Button
+                    android:id="@+id/btn3"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/purple_button"
+                    android:onClick="generaNegozio"
+                    android:text="genera negozio XXXXX" />
+
+                <Button
+                    android:id="@+id/btn4"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/purple_button"
+                    android:onClick="generaNegozio"
+                    android:text="genera negozio XXXXX" />
+
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/barraInBasso"
+        android:scrollbars="horizontal"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        app:layout_constraintTop_toBottomOf="@id/contenitoreBottoni"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
