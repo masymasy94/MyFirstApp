@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 
-class EnchantementsActivity : AppCompatActivity() {
+class EnchantmentsActivity : AppCompatActivity() {
     var x1 : Float= 0.0f;
     var x2 : Float = 0.0f;
     var y1 : Float = 0.0f;

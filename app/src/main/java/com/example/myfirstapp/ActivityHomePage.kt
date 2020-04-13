@@ -8,9 +8,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import liste.base.MostriBase
 import liste.base.OggettiBase
 import sqlite.Item
 import sqlite.ItemsDatabaseOpenHelper
+import sqlite.Monster
+import sqlite.MonstersDatabaseOpenHelper
 
 
 class ActivityHomePage : AppCompatActivity() {
@@ -23,11 +26,13 @@ class ActivityHomePage : AppCompatActivity() {
 
     var toast : Toast? = null;
     private var itemsHandler: ItemsDatabaseOpenHelper = ItemsDatabaseOpenHelper(this, null);
+    private var monstersHandler: MonstersDatabaseOpenHelper = MonstersDatabaseOpenHelper(this, null);
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_page)
+
         createBaseDB()
 
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#673AB7")))
@@ -35,11 +40,17 @@ class ActivityHomePage : AppCompatActivity() {
     }
 
     fun createBaseDB() {
+        //AGGIUNGERE ALTRE LISTE BASE
+        itemsHandler.onCreate(itemsHandler.writableDatabase)
+        monstersHandler.onCreate(monstersHandler.writableDatabase)
+
+
+        // Items -----------------------------------------------------------------------------------
         var listaDB: List<Item> = itemsHandler.getItems()
-        val ob = OggettiBase()
-        var listaBase = ob.getOggettiBase();
+        var listaBase = OggettiBase().getOggettiBase();
 
 
+//        if (listaDB.isEmpty())   if da decommentare al rilascio // TODO
         for (item: Item in listaBase) {
             var itemDb = listaDB.asSequence()
                 .filter { x -> x.name?.toUpperCase().equals(item.name?.toUpperCase()) }
@@ -56,9 +67,32 @@ class ActivityHomePage : AppCompatActivity() {
 
         }
 
+
+        // Monsters --------------------------------------------------------------------------------
+
+        var listaMostriDB : List<Monster> = monstersHandler.getMonsters()
+        var listaMostriBase = MostriBase().getMostriBase()
+
+//        if (listaMostriDB.isEmpty())  if da decommentare al rilascio // TODO
+        for (monster: Monster in listaMostriBase) {
+            var monsterDb = listaMostriDB.asSequence()
+                .filter { x -> x.name?.toUpperCase().equals(monster.name?.toUpperCase()) }
+                .firstOrNull()
+            if (monsterDb == null)
+                monstersHandler.addMonster(monster)
+            else if (!monsterDb.equalsAttributues(monsterDb)) {
+                monster.id = listaDB.asSequence()
+                    .filter { x -> x.name?.toUpperCase().equals(monster.name?.toUpperCase()) }
+                    .first().id
+                monstersHandler.updateMonster(monster)
+
+            }
+
+        }
+
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         outState?.run {
             super.onSaveInstanceState(outState)
         }

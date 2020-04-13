@@ -39,7 +39,7 @@ class MonstersActivity : AppCompatActivity() {
 
                 //SWIPE LEFT
                 if (x1 < x2) {
-                    intent = Intent(this, EnchantementsActivity::class.java)
+                    intent = Intent(this, EnchantmentsActivity::class.java)
                     startActivity(intent)
                     overridePendingTransition(R.anim.enter2, R.anim.exit2);
                     //SWIPE RIGHT

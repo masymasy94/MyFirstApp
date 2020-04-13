@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#181A24</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorPurple">#673AB7</color>
+    <color name="colorGray">#e8e8e8</color>
     <color name="colorLightPurple">#AC673AB7</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTrasparentWhite">#CCCCCC</color>

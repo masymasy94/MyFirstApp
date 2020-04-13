@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.database.sqlite.SQLiteQueryBuilder
 import java.util.*
 
 class ItemsDatabaseOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION){
@@ -21,8 +22,9 @@ class ItemsDatabaseOpenHelper(context: Context, factory: SQLiteDatabase.CursorFa
         val COLUMN_RARITY = "rarity"
     }
 
+
     override fun onCreate(db: SQLiteDatabase) {
-        val CREATE_PRODUCTS_TABLE = ("CREATE TABLE " +
+        val CREATE_PRODUCTS_TABLE = ("CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_NAME + " TEXT,"
@@ -111,6 +113,28 @@ class ItemsDatabaseOpenHelper(context: Context, factory: SQLiteDatabase.CursorFa
         cursor.close()
         return result
     }
+
+    fun insert(values: ContentValues): Long {
+        return this.writableDatabase.insert(TABLE_NAME, "", values)
+    }
+
+    fun query(projection: Array<String>, selection: String, selectionArgs: Array<String>, sorOrder: String): Cursor {
+        val qb = SQLiteQueryBuilder();
+        qb.tables = TABLE_NAME
+        return this.readableDatabase.query(TABLE_NAME, projection, selection, selectionArgs, null, null, sorOrder) // non va senza %
+
+    }
+
+    fun delete(selection: String, selectionArgs: Array<String>): Int {
+        return this.writableDatabase.delete(TABLE_NAME, selection, selectionArgs)
+
+    }
+
+    fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int {
+        return this.writableDatabase.update(TABLE_NAME, values, selection, selectionArgs)
+    }
+
+
 
 
 }

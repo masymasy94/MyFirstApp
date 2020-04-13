@@ -12,6 +12,7 @@ import sqlite.ItemsDatabaseOpenHelper
 
 class GeneraNegoziActivity : AppCompatActivity() {
     val list = intArrayOf(1,1,1,1,1,1,2,2,2,3)
+    private var testo : String = "";
     private var itemsHandler : ItemsDatabaseOpenHelper = ItemsDatabaseOpenHelper(this, null);
     val NUMERO_OGGETTI_NEGOZIO_PRINCIPIANTE = 50
 
@@ -47,5 +48,21 @@ class GeneraNegoziActivity : AppCompatActivity() {
         }
         textViewTest.text = text;
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState?.run {
+            putString(testo, textViewTest.text.toString())
+        }
+        super.onSaveInstanceState(outState)
+
+    }
+
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+
+        textViewTest.text = savedInstanceState?.getString(testo)
+
+    }
+
 
 }

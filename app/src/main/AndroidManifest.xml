@@ -9,16 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GeneraNegoziActivity"></activity>
-        <activity android:name=".EnchantementsActivity" />
-        <activity android:name=".ItemsActivity" />
+        <activity android:name=".AddItemActivity"></activity>
+        <activity android:name=".GeneraNegoziActivity" />
+        <activity android:name=".EnchantmentsActivity" />
+        <activity android:name=".ItemsActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity android:name=".MonstersActivity" />
         <activity android:name=".ActivityDM" />
         <activity android:name=".ActivityHomePage">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
     </application>
