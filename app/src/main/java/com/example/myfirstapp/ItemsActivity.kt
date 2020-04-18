@@ -84,7 +84,7 @@ class ItemsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item != null) {
             when (item.itemId) {
-                R.id.addItem -> {
+                R.id.add -> {
                     startActivity(Intent(this, AddItemActivity::class.java))
                 }
                 R.id.app_bar_search -> {
@@ -100,13 +100,15 @@ class ItemsActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
         val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_item, menu)
+        inflater.inflate(R.menu.menu, menu)
 
         var menuItem : MenuItem = menu.findItem(R.id.app_bar_search)
         var searchView : SearchView = menuItem.actionView as SearchView
 
         searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
+
+                // TODO salvare ricerca in variabile globale
                 override fun onQueryTextSubmit(query: String): Boolean {
                     return false
                 }
@@ -127,7 +129,7 @@ class ItemsActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        LoadQuery("%")
+        LoadQuery("%") // TODO da cambiare con variabile della barra di ricerca
     }
 
 
@@ -260,7 +262,7 @@ class ItemsActivity : AppCompatActivity() {
 
                 if (Intent.ACTION_SEARCH == intent.action) {
                     val query = intent.getStringExtra(SearchManager.QUERY)
-                    //use the query to search your data somehow
+
                 }
             }
         }

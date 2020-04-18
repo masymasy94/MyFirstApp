@@ -41,8 +41,8 @@ class ActivityHomePage : AppCompatActivity() {
 
     fun createBaseDB() {
         //AGGIUNGERE ALTRE LISTE BASE
-        itemsHandler.onCreate(itemsHandler.writableDatabase)
-        monstersHandler.onCreate(monstersHandler.writableDatabase)
+        itemsHandler.onUpgrade(itemsHandler.writableDatabase,1,1)
+        monstersHandler.onUpgrade(monstersHandler.writableDatabase, 1,1 )
 
 
         // Items -----------------------------------------------------------------------------------
