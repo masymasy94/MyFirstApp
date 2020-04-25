@@ -306,9 +306,8 @@ class MonstersDatabaseOpenHelper (context: Context, factory: SQLiteDatabase.Curs
 
     fun query(projection: Array<String>, selection: String, selectionArgs: Array<String>, sorOrder: String): Cursor {
         val qb = SQLiteQueryBuilder();
-        qb.tables = MonstersDatabaseOpenHelper.TABLE_NAME
+        qb.tables = TABLE_NAME
         return this.readableDatabase.query(TABLE_NAME, projection, selection, selectionArgs, null, null, sorOrder)
-
     }
 
     fun delete(selection: String, selectionArgs: Array<String>): Int {

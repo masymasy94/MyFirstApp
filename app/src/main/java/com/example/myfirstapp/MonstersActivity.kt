@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.BaseAdapter
+import android.widget.ListView
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_monsters.*
@@ -35,6 +36,45 @@ class MonstersActivity : AppCompatActivity() {
         homePageLevel = intent?.extras?.getString("HOME_PAGE_LEVEL").toString()
 
         LoadMonsterQuery("%")
+
+        val listView = findViewById(R.id.monstersListView) as ListView
+
+        listView.setOnTouchListener(
+            object : View.OnTouchListener {
+                override fun onTouch(v: View?, event: MotionEvent): Boolean {
+                    var downX = 0.0f
+                    var upX = 0.0f
+                    when (event.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            x1 = event.x
+                            y1 = event.y
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            x2 = event.x
+                            y2 = event.y
+                            //SWIPE LEFT
+                            if (x1 < x2 && (x1 - x2 > 400 || x1 - x2 < -400)) {
+                                intent = Intent(baseContext, EnchantmentsActivity::class.java)
+                                startActivity(intent)
+                                overridePendingTransition(R.anim.enter2, R.anim.exit2);
+                                //SWIPE RIGHT
+                            } else if (x1 > x2 && (x1 - x2 > 400  || x1 - x2 < -400)) {
+
+                                when (homePageLevel) {
+                                    null -> {intent = Intent(baseContext, ActivityHomePage::class.java)}
+                                    "" -> {intent = Intent(baseContext, ActivityHomePage::class.java)}
+                                    "dm" -> { intent = Intent(baseContext, ActivityDM::class.java)}
+                                    "negozi" -> {intent = Intent(baseContext, GeneraNegoziActivity::class.java)}
+                                }
+                                startActivity(intent)
+                                overridePendingTransition(R.anim.enter, R.anim.exit);
+                            }
+                        }
+                    }
+                    return false
+                }
+            })
+
     }
 
     // sovrascrivi la barra base
@@ -245,8 +285,6 @@ class MonstersActivity : AppCompatActivity() {
             return monstersListAdapter.size
         }
 
-
-
     }
 
     private fun GoToUpdateFun(myMonster: Monster) {
@@ -259,49 +297,5 @@ class MonstersActivity : AppCompatActivity() {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-    override fun onTouchEvent(motionEvent : MotionEvent): Boolean {
-
-        when (motionEvent.action) {
-            MotionEvent.ACTION_DOWN -> {
-                x1 = motionEvent.x
-                y1 = motionEvent.y
-            }
-            MotionEvent.ACTION_UP -> {
-                x2 = motionEvent.x
-                y2 = motionEvent.y
-
-                //SWIPE LEFT
-                if (x1 < x2) {
-                    intent = Intent(this, EnchantmentsActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.enter2, R.anim.exit2);
-                    //SWIPE RIGHT
-                } else if (x1 > x2) {
-                    intent = Intent(this, ActivityHomePage::class.java)
-                    when (homePageLevel) {
-                        "dm" -> { intent = Intent(this, ActivityDM::class.java)}
-                        "negozi" -> {intent = Intent(this, GeneraNegoziActivity::class.java)}
-                    }
-
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.enter, R.anim.exit);
-                }
-
-            }
-        }
-
-        return false;
-    }
 
 }

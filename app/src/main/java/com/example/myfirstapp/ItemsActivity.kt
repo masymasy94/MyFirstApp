@@ -58,7 +58,7 @@ class ItemsActivity : AppCompatActivity() {
                         x2 = event.x
                         y2 = event.y
                         //SWIPE LEFT
-                        if (x1 < x2 && (x1 - x2 > 500 || x1 - x2 < -500)) {
+                        if (x1 < x2 && (x1 - x2 > 400 || x1 - x2 < -400)) {
                             var intent = Intent(baseContext, ActivityHomePage::class.java)
                             when (homePageLevel) {
                                 "dm" -> { intent = Intent(baseContext, ActivityDM::class.java) }
@@ -68,7 +68,7 @@ class ItemsActivity : AppCompatActivity() {
                             overridePendingTransition(R.anim.enter2, R.anim.exit2);
 
                             //SWIPE RIGHT
-                        } else if (x1 > x2 && (x1 - x2 > 500  || x1 - x2 < -500)) {
+                        } else if (x1 > x2 && (x1 - x2 > 400  || x1 - x2 < -400)) {
                             var intent = Intent(baseContext, EnchantmentsActivity::class.java)
                             startActivity(intent)
                             overridePendingTransition(R.anim.enter, R.anim.exit);

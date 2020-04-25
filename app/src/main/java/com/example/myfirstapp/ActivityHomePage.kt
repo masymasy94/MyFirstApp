@@ -10,10 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import liste.base.MostriBase
 import liste.base.OggettiBase
-import sqlite.Item
-import sqlite.ItemsDatabaseOpenHelper
-import sqlite.Monster
-import sqlite.MonstersDatabaseOpenHelper
+import sqlite.*
 
 
 class ActivityHomePage : AppCompatActivity() {
@@ -27,7 +24,7 @@ class ActivityHomePage : AppCompatActivity() {
     var toast : Toast? = null;
     private var itemsHandler: ItemsDatabaseOpenHelper = ItemsDatabaseOpenHelper(this, null);
     private var monstersHandler: MonstersDatabaseOpenHelper = MonstersDatabaseOpenHelper(this, null);
-
+    private var enchantmentsHandler: EnchantmentsDatabaseOpenHelper = EnchantmentsDatabaseOpenHelper(this, null);
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +40,7 @@ class ActivityHomePage : AppCompatActivity() {
         //AGGIUNGERE ALTRE LISTE BASE
         itemsHandler.onUpgrade(itemsHandler.writableDatabase,1,1)
         monstersHandler.onUpgrade(monstersHandler.writableDatabase, 1,1 )
-
+        enchantmentsHandler.onUpgrade(enchantmentsHandler.writableDatabase, 1,1 )
 
         // Items -----------------------------------------------------------------------------------
         var listaDB: List<Item> = itemsHandler.getItems()
