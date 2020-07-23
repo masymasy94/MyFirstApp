@@ -31,7 +31,7 @@ class EnchantmentsDatabaseOpenHelper (context: Context, factory: SQLiteDatabase.
 
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_PRODUCTS_TABLE = ("CREATE TABLE IF NOT EXISTS " +
-                MonstersDatabaseOpenHelper.TABLE_NAME + "("
+                  TABLE_NAME + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_ITALIAN_NAME + " TEXT, "
                 + COLUMN_ENGLISH_NAME + " TEXT, "

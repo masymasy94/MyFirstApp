@@ -1,6 +1,7 @@
 package com.example.myfirstapp
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,6 +10,8 @@ import android.view.*
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.SearchView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_monsters.*
 import kotlinx.android.synthetic.main.monster_row.view.*
@@ -42,8 +45,6 @@ class MonstersActivity : AppCompatActivity() {
         listView.setOnTouchListener(
             object : View.OnTouchListener {
                 override fun onTouch(v: View?, event: MotionEvent): Boolean {
-                    var downX = 0.0f
-                    var upX = 0.0f
                     when (event.action) {
                         MotionEvent.ACTION_DOWN -> {
                             x1 = event.x
@@ -54,17 +55,16 @@ class MonstersActivity : AppCompatActivity() {
                             y2 = event.y
                             //SWIPE LEFT
                             if (x1 < x2 && (x1 - x2 > 400 || x1 - x2 < -400)) {
-                                intent = Intent(baseContext, EnchantmentsActivity::class.java)
+                                intent = Intent(this@MonstersActivity, EnchantmentsActivity::class.java)
                                 startActivity(intent)
                                 overridePendingTransition(R.anim.enter2, R.anim.exit2);
                                 //SWIPE RIGHT
                             } else if (x1 > x2 && (x1 - x2 > 400  || x1 - x2 < -400)) {
 
+                                intent = Intent(this@MonstersActivity, ActivityHomePage::class.java)
                                 when (homePageLevel) {
-                                    null -> {intent = Intent(baseContext, ActivityHomePage::class.java)}
-                                    "" -> {intent = Intent(baseContext, ActivityHomePage::class.java)}
-                                    "dm" -> { intent = Intent(baseContext, ActivityDM::class.java)}
-                                    "negozi" -> {intent = Intent(baseContext, GeneraNegoziActivity::class.java)}
+                                    "dm" -> { intent = Intent(this@MonstersActivity, ActivityDM::class.java)}
+                                    "negozi" -> {intent = Intent(this@MonstersActivity, GeneraNegoziActivity::class.java)}
                                 }
                                 startActivity(intent)
                                 overridePendingTransition(R.anim.enter, R.anim.exit);
@@ -261,9 +261,26 @@ class MonstersActivity : AppCompatActivity() {
 
             //delete button click
             myView.deleteMonsterBtn.setOnClickListener {
-                val selectionArgs = arrayOf(myMonster.id.toString())
-                var monster = monstersHandler.getMonsters()[myMonster.id]
-                monstersHandler.delete("ID=?", selectionArgs)
+
+                val dialogBuilder = AlertDialog.Builder(this@MonstersActivity)
+                    .setCancelable(true)
+                    .setPositiveButton("Elimina!!", DialogInterface.OnClickListener {
+                            dialog, id ->
+                        monstersHandler.deleteMonsterById(myMonster.id.toString())
+                        LoadMonsterQuery("%")
+                        dialog.cancel()
+
+                        var toast = Toast.makeText(this@MonstersActivity, "Mostro " +  myMonster.name + " eliminato", Toast.LENGTH_LONG)
+                        toast.show()
+                    })
+                    // negative button text and action
+                    .setNegativeButton("Non eliminare!", DialogInterface.OnClickListener {
+                            dialog, id -> dialog.cancel()
+                    })
+
+                val alert = dialogBuilder.create()
+                alert.setTitle("Vuoi eliminare il mostro " +  myMonster.name + "?")
+                alert.show()
             }
             //edit//update button click
             myView.editMonsterBtn.setOnClickListener {

@@ -8,9 +8,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import liste.base.MostriBase
-import liste.base.OggettiBase
-import sqlite.*
 
 
 class ActivityHomePage : AppCompatActivity() {
@@ -22,90 +19,43 @@ class ActivityHomePage : AppCompatActivity() {
 
 
     var toast : Toast? = null;
-    private var itemsHandler: ItemsDatabaseOpenHelper = ItemsDatabaseOpenHelper(this, null);
-    private var monstersHandler: MonstersDatabaseOpenHelper = MonstersDatabaseOpenHelper(this, null);
-    private var enchantmentsHandler: EnchantmentsDatabaseOpenHelper = EnchantmentsDatabaseOpenHelper(this, null);
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_page)
 
-        createBaseDB()
 
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#673AB7")))
         supportActionBar?.title = "Home"
     }
 
-    fun createBaseDB() {
-        //AGGIUNGERE ALTRE LISTE BASE
-        itemsHandler.onUpgrade(itemsHandler.writableDatabase,1,1)
-        monstersHandler.onUpgrade(monstersHandler.writableDatabase, 1,1 )
-        enchantmentsHandler.onUpgrade(enchantmentsHandler.writableDatabase, 1,1 )
 
-        // Items -----------------------------------------------------------------------------------
-        var listaDB: List<Item> = itemsHandler.getItems()
-        var listaBase = OggettiBase().getOggettiBase();
-
-
-//        if (listaDB.isEmpty())   if da decommentare al rilascio // TODO
-        for (item: Item in listaBase) {
-            var itemDb = listaDB.asSequence()
-                .filter { x -> x.name?.toUpperCase().equals(item.name?.toUpperCase()) }
-                .firstOrNull()
-            if (itemDb == null)
-                itemsHandler.addItem(item)
-            else if (!itemDb.equalsAttributues(itemDb)) {
-                item.id = listaDB.asSequence()
-                    .filter { x -> x.name?.toUpperCase().equals(item.name?.toUpperCase()) }
-                    .first().id
-                itemsHandler.updateItem(item)
-
-            }
-
-        }
-
-
-        // Monsters --------------------------------------------------------------------------------
-
-        var listaMostriDB : List<Monster> = monstersHandler.getMonsters()
-        var listaMostriBase = MostriBase().getMostriBase()
-
-//        if (listaMostriDB.isEmpty())  if da decommentare al rilascio // TODO
-        for (monster: Monster in listaMostriBase) {
-            var monsterDb = listaMostriDB.asSequence()
-                .filter { x -> x.name?.toUpperCase().equals(monster.name?.toUpperCase()) }
-                .firstOrNull()
-            if (monsterDb == null)
-                monstersHandler.addMonster(monster)
-            else if (!monsterDb.equalsAttributues(monsterDb)) {
-                monster.id = listaDB.asSequence()
-                    .filter { x -> x.name?.toUpperCase().equals(monster.name?.toUpperCase()) }
-                    .first().id
-                monstersHandler.updateMonster(monster)
-
-            }
-
-        }
-
-    }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#673AB7")))
         outState?.run {
             super.onSaveInstanceState(outState)
         }
     }
 
+    override fun onResume() {
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#673AB7")))
+        super.onResume()
+    }
+
 
     fun dmButtonPressed(view: View) {
         toast?.cancel()
-        val intent = Intent(this, ActivityDM::class.java)
+        val intent = Intent(this@ActivityHomePage, ActivityDM::class.java)
         startActivity(intent)
     }
 
     fun pcButtonPressed(view: View) {
 //        val intent = Intent(this, ActivityPC::class.java)
 //        startActivity(intent)
-        toast = Toast.makeText(this, "Funzione non ancora implementata", Toast.LENGTH_LONG)
+        toast = Toast.makeText(this@ActivityHomePage, "Funzione non ancora implementata", Toast.LENGTH_LONG)
         toast!!.show()
     }
 
@@ -128,7 +78,7 @@ class ActivityHomePage : AppCompatActivity() {
                 //SWIPE LEFT
                 if (x1 < x2) {
                     toast?.cancel()
-                    intent = Intent(this, MonstersActivity::class.java)
+                    intent = Intent(this@ActivityHomePage, MonstersActivity::class.java)
                     intent.putExtra("HOME_PAGE_LEVEL","home")
                     startActivity(intent)
                     overridePendingTransition(R.anim.enter2, R.anim.exit2);
@@ -136,7 +86,7 @@ class ActivityHomePage : AppCompatActivity() {
                 //SWIPE RIGHT
                 } else if (x1 > x2) {
                     toast?.cancel()
-                    var intent = Intent(this, ItemsActivity::class.java)
+                    var intent = Intent(this@ActivityHomePage, ItemsActivity::class.java)
                     intent.putExtra("HOME_PAGE_LEVEL","home")
                     startActivity(intent)
                     overridePendingTransition(R.anim.enter, R.anim.exit);

@@ -310,9 +310,8 @@ class MonstersDatabaseOpenHelper (context: Context, factory: SQLiteDatabase.Curs
         return this.readableDatabase.query(TABLE_NAME, projection, selection, selectionArgs, null, null, sorOrder)
     }
 
-    fun delete(selection: String, selectionArgs: Array<String>): Int {
-        return this.writableDatabase.delete(TABLE_NAME, selection, selectionArgs)
-
+    fun deleteMonsterById(id: String){
+        return this.writableDatabase.execSQL("delete from monsters where id = $id")
     }
 
     fun update(values: ContentValues, selection: String, selectionArgs: Array<String>): Int {

@@ -75,7 +75,7 @@ class ItemsDatabaseOpenHelper(context: Context, factory: SQLiteDatabase.CursorFa
 
     fun getItems(): List<Item> {
 
-        val cursor = this!!.getAll()
+        val cursor = this.getAll()
         if (cursor == null || cursor.count == 0) {
             return Collections.emptyList()
         }

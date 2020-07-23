@@ -1,7 +1,9 @@
 package com.example.myfirstapp
 
+import android.app.AlertDialog
 import android.app.SearchManager
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -21,10 +23,8 @@ import sqlite.ItemsDatabaseOpenHelper
 class ItemsActivity : AppCompatActivity() {
     private var itemsHandler : ItemsDatabaseOpenHelper = ItemsDatabaseOpenHelper(this, null);
     var itemsList : MutableList<Item> = mutableListOf()
-    var searchManager : SearchManager? = null
-    var toast : Toast? = null;
     var homePageLevel : String = ""
-    var x1 : Float= 0.0f;
+    var x1 : Float = 0.0f;
     var x2 : Float = 0.0f;
     var y1 : Float = 0.0f;
     var y2 : Float = 0.0f;
@@ -59,17 +59,17 @@ class ItemsActivity : AppCompatActivity() {
                         y2 = event.y
                         //SWIPE LEFT
                         if (x1 < x2 && (x1 - x2 > 400 || x1 - x2 < -400)) {
-                            var intent = Intent(baseContext, ActivityHomePage::class.java)
+                            var intent = Intent(this@ItemsActivity, ActivityHomePage::class.java)
                             when (homePageLevel) {
-                                "dm" -> { intent = Intent(baseContext, ActivityDM::class.java) }
-                                "negozi" -> { intent = Intent(baseContext, GeneraNegoziActivity::class.java) }
+                                "dm" -> { intent = Intent(this@ItemsActivity, ActivityDM::class.java) }
+                                "negozi" -> { intent = Intent(this@ItemsActivity, GeneraNegoziActivity::class.java) }
                             }
                             startActivity(intent)
                             overridePendingTransition(R.anim.enter2, R.anim.exit2);
 
                             //SWIPE RIGHT
                         } else if (x1 > x2 && (x1 - x2 > 400  || x1 - x2 < -400)) {
-                            var intent = Intent(baseContext, EnchantmentsActivity::class.java)
+                            var intent = Intent(this@ItemsActivity, EnchantmentsActivity::class.java)
                             startActivity(intent)
                             overridePendingTransition(R.anim.enter, R.anim.exit);
                         }
@@ -128,44 +128,13 @@ class ItemsActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#673AB7")))
         super.onResume()
         LoadQuery("%") // TODO da cambiare con variabile della barra di ricerca
     }
 
 
-    override fun onTouchEvent(motionEvent : MotionEvent): Boolean {
 
-        when (motionEvent.action) {
-            MotionEvent.ACTION_DOWN -> {
-                x1 = motionEvent.x
-                y1 = motionEvent.y
-            }
-            MotionEvent.ACTION_UP -> {
-                x2 = motionEvent.x
-                y2 = motionEvent.y
-
-                //SWIPE LEFT
-                if (x1 < x2) {
-                    intent = Intent(this, ActivityHomePage::class.java)
-                    when (homePageLevel) {
-                        "dm" -> { intent = Intent(this, ActivityDM::class.java) }
-                        "negozi" -> { intent = Intent(this, GeneraNegoziActivity::class.java) }
-                    }
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.enter2, R.anim.exit2);
-
-                    //SWIPE RIGHT
-                } else if (x1 > x2) {
-                    var intent = Intent(this, EnchantmentsActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.enter, R.anim.exit);
-                }
-
-            }
-        }
-
-        return false;
-    }
 
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------
@@ -219,11 +188,27 @@ class ItemsActivity : AppCompatActivity() {
 
             //delete button click
             myView.deleteBtn.setOnClickListener {
-                val selectionArgs = arrayOf(myItem.id.toString())
-                var item = itemsHandler.getItems()[myItem.id]
-                itemsHandler.delete("ID=?", selectionArgs)
-                toast = Toast.makeText(parent?.context, "Oggetto" + item.name + "eliminato", Toast.LENGTH_LONG)
-                LoadQuery("%")
+
+                val dialogBuilder = AlertDialog.Builder(this@ItemsActivity)
+                    .setPositiveButton("Elimina!!", DialogInterface.OnClickListener {
+                            dialog, id ->
+                        val selectionArgs = arrayOf(myItem.id.toString())
+                        itemsHandler.delete("ID=?", selectionArgs)
+                        LoadQuery("%")
+                        dialog.cancel()
+
+                        var toast = Toast.makeText(this@ItemsActivity, "Oggetto " +  myItem.name + " eliminato", Toast.LENGTH_LONG)
+                        toast.show()
+                    })
+                    // negative button text and action
+                    .setNegativeButton("Non eliminare!", DialogInterface.OnClickListener {
+                            dialog, id -> dialog.cancel()
+                    })
+
+                val alert = dialogBuilder.create()
+                alert.setTitle("Vuoi eliminare l' oggetto " +  myItem.name + "?")
+                alert.show()
+
             }
             //edit//update button click
             myView.editBtn.setOnClickListener {
@@ -266,7 +251,6 @@ class ItemsActivity : AppCompatActivity() {
                 }
             }
         }
-
 
     }
 
